@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: google/cloud-sdk:latest
     steps:
+      - setup_remote_docker
       - add_ssh_keys:
           fingerprints:
               - "$DEVOPS_WEBSITE_SSH_KEY"
