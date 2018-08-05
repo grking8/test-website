@@ -1,9 +1,9 @@
 #!/usr/bin/env bash 
 
--set xe
+set xe
 
 cd ../
 mkdir -p devops
 cd devops
-git clone git@gitlab.com:zorncapital-devops/website.git
+git clone --quiet git@gitlab.com:zorncapital-devops/website.git
 
