@@ -19,6 +19,9 @@ jobs:
       - run:
           name: Build Docker image
           command: deploy-scripts/build-docker.sh
+      - run:
+          name: Push Docker image to container registry
+          command: deploy-scripts/push-docker.sh
 
 workflows:
   version: 2
