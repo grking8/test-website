@@ -15,6 +15,9 @@ jobs:
       - run:
           name: Download nginx config for using SSL and HTTPS redirect
           command: deploy-scripts/get-nginx-config.sh
+      - run:
+          name: Build Docker image
+          command: deploy-scripts/build-docker.sh
 
 workflows:
   version: 2
