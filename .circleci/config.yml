@@ -5,13 +5,13 @@ jobs:
     docker:
       - image: google/cloud-sdk:latest
     steps:
+      - add_ssh_keys:
+          fingerprints:
+              - "$DEVOPS_WEBSITE_SSH_KEY"
       - checkout
       - run:
           name: Create SSL certificate and private key
           command: deploy-scripts/create-ssl-files.sh
-      - add_ssh_keys:
-          fingerprints:
-              - "$DEVOPS_WEBSITE_SSH_KEY"
       - run:
           -name: Download nginx config for using SSL and HTTPS redirect
           - command: deploy-scripts/get-nginx-config.sh
