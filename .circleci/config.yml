@@ -42,7 +42,7 @@ workflows:
   version: 2
   containerise-deploy-production:
     jobs:
-      - containerise
+      - containerise:
           filters:
             branches:
               only: master
