@@ -20,6 +20,9 @@ jobs:
           name: Build Docker image
           command: deploy-scripts/build-docker.sh
       - run:
+          name: Authenticate GCP
+          command: deploy-scripts/scripts/authenticate-gcloud.sh
+      - run:
           name: Push Docker image to container registry
           command: deploy-scripts/push-docker.sh
 
