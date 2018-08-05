@@ -2,8 +2,12 @@
 
 set xe
 
+cat >> ~/.ssh/config << EOF
+  StrictHostKeyChecking no
+EOF
+
 cd ../
 mkdir -p devops
 cd devops
-git clone --quiet git@gitlab.com:zorncapital-devops/website.git
+git clone git@gitlab.com:zorncapital-devops/website.git
 
