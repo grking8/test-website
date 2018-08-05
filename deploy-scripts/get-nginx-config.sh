@@ -2,6 +2,8 @@
 
 set xe
 
+. deploy.cfg
+
 apt-get -y install gettext-base
 
 ssh-keyscan -H gitlab.com >> ~/.ssh/known_hosts
