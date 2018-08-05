@@ -1,0 +1,18 @@
+version: 2
+jobs:
+
+  containerise:
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - run:
+          name: Create SSL certificate and private key
+          command: deploy-scripts/create-ssl-files.sh
+
+workflows:
+  version: 2
+  containerise:
+    jobs:
+      - containerise:
+
