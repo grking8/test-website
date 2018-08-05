@@ -2,9 +2,9 @@
 
 set xe
 
-cat >> ~/.ssh/config << EOF
-  StrictHostKeyChecking no
-EOF
+#cat >> ~/.ssh/config << EOF
+#  StrictHostKeyChecking no
+#EOF
 
 cd ../
 mkdir -p devops
