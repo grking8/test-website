@@ -14,7 +14,7 @@ jobs:
           name: Create SSL certificate and private key
           command: deploy-scripts/create-ssl-files.sh
       - run:
-          name: Download nginx config for using SSL and HTTPS redirect
+          name: Download nginx config (SSL, HTTPS redirect)
           command: deploy-scripts/get-nginx-config.sh
       - run:
           name: Build Docker image
