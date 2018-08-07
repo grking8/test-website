@@ -7,6 +7,3 @@ COPY index.html /usr/share/nginx/html/
 COPY default.conf /etc/nginx/conf.d/
 COPY $CERTIFICATE_FILE /etc/ssl/
 COPY $PRIVATE_KEY_FILE /etc/ssl/ 
-
-EXPOSE 80 443
-
