@@ -3,7 +3,7 @@
 set -xe
 
 DIR=/root/project/
-. deploy.cfg
+. ${DIR}deploy.cfg
 mv ${DIR}config/* .
 rm -rf ${DIR}config
 docker build --tag $CONTAINER_REGISTRY/$PROJECT_ID/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 \
