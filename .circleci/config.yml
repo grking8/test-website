@@ -3,7 +3,7 @@ jobs:
 
   configure-webserver-ssl:
     docker:
-      - image: tianon/true
+      - image: circleci/build-image
     steps:
       - checkout
       - add_ssh_keys:
