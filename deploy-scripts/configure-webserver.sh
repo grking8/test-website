@@ -11,6 +11,6 @@ mv $SSL_PRIVATE_KEY_FILE ../../project/config
 mv $SSL_CERTIFICATE_FILE ../../project/config
 
 # create webserver config
-apt-get -y install gettext-base
+apk add gettext
 cd ../../
 envsubst '${SSL_CERTIFICATE_FILE},${SSL_PRIVATE_KEY_FILE}' < $WEBSERVER_LIB_REPO/ssl/nginx/default.conf > project/config/default.conf
