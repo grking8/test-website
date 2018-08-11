@@ -2,6 +2,7 @@
 
 set -xe
 
+echo $(pwd)
 . deploy.cfg
 mv config/* .
 rm -rf config
