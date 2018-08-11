@@ -1,24 +1,36 @@
 version: 2
 jobs:
 
-  containerise:
+  configure-webserver-ssl:
     docker:
-      - image: google/cloud-sdk:latest
+      - image: scratch
     steps:
-      - setup_remote_docker
+      - checkout
       - add_ssh_keys:
           fingerprints:
               - "$LIB_SSH_FINGERPRINT"
-      - checkout
       - run:
           name: Download external libraries
           command: deploy-scripts/download-external-libs.sh
       - run:
-          name: Create SSL certificate and private key
-          command: deploy-scripts/create-ssl-files.sh
-      - run:
-          name: Download nginx config (SSL, HTTPS redirect)
-          command: deploy-scripts/get-nginx-config.sh
+          name: Create SSL files and configure web server
+          command: deploy-scripts/configure-webserver.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - config
+
+  containerise:
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+              - "$LIB_SSH_FINGERPRINT"
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
       - run:
           name: Build Docker image
           command: deploy-scripts/build-docker.sh
@@ -43,9 +55,15 @@ jobs:
 
 workflows:
   version: 2
-  containerise-deploy-production:
+  configure-webserver-ssl-containerise-deploy-production:
     jobs:
+      - configure-webserver-ssl:
+          filter:
+            branches:
+              only: master
       - containerise:
+          requires:
+            - configure-webserver-ssl
           filters:
             branches:
               only: master
