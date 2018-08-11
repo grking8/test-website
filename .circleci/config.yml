@@ -11,8 +11,8 @@ jobs:
               - "$LIB_SSH_FINGERPRINT"
       - checkout
       - run:
-          name: Download external library
-          command: deploy-scripts/download-external-lib.sh
+          name: Download external libraries
+          command: deploy-scripts/download-external-libs.sh
       - run:
           name: Create SSL certificate and private key
           command: deploy-scripts/create-ssl-files.sh
