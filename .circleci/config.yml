@@ -3,7 +3,7 @@ jobs:
 
   configure-webserver-ssl:
     docker:
-      - image: scratch
+      - image: tianon/true
     steps:
       - checkout
       - add_ssh_keys:
