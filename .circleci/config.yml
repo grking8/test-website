@@ -58,7 +58,7 @@ workflows:
   configure-webserver-ssl-containerise-deploy-production:
     jobs:
       - configure-webserver-ssl:
-          filter:
+          filters:
             branches:
               only: master
       - containerise:
