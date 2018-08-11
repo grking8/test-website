@@ -3,7 +3,7 @@ jobs:
 
   configure-webserver-ssl:
     docker:
-      - image: circleci/build-image
+      - image: circleci/build-image:latest
     steps:
       - checkout
       - add_ssh_keys:
