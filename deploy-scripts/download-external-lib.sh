@@ -3,7 +3,7 @@
 set -e
 
 . deploy.cfg
-ssh-keyscan -H $LIB_GITHOST >> ~/.ssh/known_hosts
+ssh-keyscan -H $EXTERNAL_GITHOST >> ~/.ssh/known_hosts
 cd ../
-git clone $LIB_URL
-
+git clone $WEBSERVER_LIB_URL
+git clone $DEPLOY_SCRIPTS_LIB_URL

@@ -3,5 +3,5 @@
 set -e
 
 . deploy.cfg
-echo "$SSL_CERTIFICATE" | base64 --decode --ignore-garbage > $SSL_CERTIFICATE_FILE
-echo "$SSL_PRIVATE_KEY" | base64 --decode --ignore-garbage > $SSL_PRIVATE_KEY_FILE
+cd ../$DEPLOY_SCRIPTS_LIB_REPO/ssl
+./create-ssl-files.sh $SSL_CERTIFICATE $SSL_PRIVATE_KEY $SSL_CERTIFICATE_FILE $SSL_PRIVATE_KEY_FILE
