@@ -2,7 +2,8 @@
 
 set -e
 
-. deploy.cfg
+DIR=/root/project/
+. ${DIR}deploy.cfg
 apk update
 apk add openssh-client
 apk add git
