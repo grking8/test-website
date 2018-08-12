@@ -32,6 +32,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Download external libraries
+          command: deploy-scripts/external-libs.sh
+      - run:
           name: Authenticate GCP; build Docker image and push to container registry
           command: deploy-scripts/containerise.sh
 
