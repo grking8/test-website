@@ -11,7 +11,7 @@ jobs:
               - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
           name: Download external libraries
-          command: deploy-scripts/external-libs.sh
+          command: deploy-scripts/external-libs.sh true
       - run:
           name: Create SSL files and configure web server
           command: deploy-scripts/configure-webserver.sh
@@ -33,7 +33,7 @@ jobs:
           at: .
       - run:
           name: Download external libraries
-          command: deploy-scripts/external-libs.sh
+          command: deploy-scripts/external-libs.sh false
       - run:
           name: Authenticate GCP; build Docker image and push to container registry
           command: deploy-scripts/containerise.sh
@@ -43,11 +43,14 @@ jobs:
       - image: google/cloud-sdk:latest
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+              - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
-          name: Authenticate GCP
-          command: deploy-scripts/authenticate-gcloud.sh
+          name: Download external libraries
+          command: deploy-scripts/external-libs.sh false
       - run:
-          name: Create or update instance
+          name: Authenticate GCP; create or update instance
           command: deploy-scripts/update-instance.sh
 
 workflows:
