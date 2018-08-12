@@ -35,7 +35,7 @@ jobs:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh false
       - run:
-          name: Authenticate GCP; build Docker image and push to container registry
+          name: Build Docker image and push to container registry
           command: deploy-scripts/containerise.sh
 
   deploy-production:
@@ -50,7 +50,7 @@ jobs:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh false
       - run:
-          name: Authenticate GCP; create or update instance
+          name: Create or update instance
           command: deploy-scripts/update-instance.sh
 
 workflows:

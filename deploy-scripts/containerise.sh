@@ -8,5 +8,6 @@ export DIR
 mv ${DIR}config/* .
 rm -rf ${DIR}config
 cd  ..
+echo "Authenticating to Google Cloud Platform..."
 ${DEPLOY_SCRIPTS_LIB_REPO}/gcp/authenticate.sh
 ${DEPLOY_SCRIPTS_LIB_REPO}/build-push-docker.sh
