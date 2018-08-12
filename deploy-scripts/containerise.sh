@@ -4,6 +4,7 @@ set -e
 
 # prepare files
 DIR=/root/project/
+export DIR
 . ${DIR}deploy.cfg
 mv ${DIR}config/* .
 rm -rf ${DIR}config
