@@ -2,8 +2,9 @@ FROM nginx:alpine
 
 ARG SSL_CERTIFICATE_FILE
 ARG SSL_PRIVATE_KEY_FILE
+ARG STATIC_FILES
 
-COPY index.html /usr/share/nginx/html/
+COPY $STATIC_FILES /usr/share/nginx/html/
 COPY default.conf /etc/nginx/conf.d/
 COPY $SSL_CERTIFICATE_FILE /etc/ssl/
 COPY $SSL_PRIVATE_KEY_FILE /etc/ssl/
