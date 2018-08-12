@@ -11,7 +11,7 @@ mv $SSL_PRIVATE_KEY_FILE ../../project/config
 mv $SSL_CERTIFICATE_FILE ../../project/config
 echo "Create webserver config..."
 apk add gettext
-cd ../../
+cd ../..
 envsubst '${SSL_CERTIFICATE_FILE},${SSL_PRIVATE_KEY_FILE}' \
 < $WEBSERVER_LIB_REPO/ssl/nginx/default.conf \
 > project/config/default.conf
