@@ -32,15 +32,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Build Docker image
-          command: deploy-scripts/build-docker.sh
-      - run:
-          name: Authenticate GCP
-          command: deploy-scripts/authenticate-gcloud.sh
-      - run:
-          name: Push Docker image to container registry
-          command: deploy-scripts/push-docker.sh
-  
+          name: Authenticate GCP; build Docker image and push to container registry
+          command: deploy-scripts/containerise.sh
+
   deploy-production:
     docker:
       - image: google/cloud-sdk:latest
