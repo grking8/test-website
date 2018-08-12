@@ -4,6 +4,7 @@ set -xe
 
 DIR=/root/project/
 . ${DIR}deploy.cfg
+cd ..
 # authenticate GCP
 ${DEPLOY_SCRIPTS_LIB_REPO}/gcp/authenticate.sh
 # update instance
