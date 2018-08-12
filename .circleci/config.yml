@@ -11,7 +11,7 @@ jobs:
               - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
           name: Download external libraries
-          command: deploy-scripts/download-external-libs.sh
+          command: deploy-scripts/external-libs.sh
       - run:
           name: Create SSL files and configure web server
           command: deploy-scripts/configure-webserver.sh
