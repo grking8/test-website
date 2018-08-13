@@ -7,7 +7,7 @@ Infrastructure as code for static websites
 Assuming you have Python 3 installed as per `$(which python) --version`
 
 - Clone the git repository `git clone https://github.com/family-guy/test-website.git`
-- cd `/path/to/test-website`
+- `cd /path/to/test-website`
 - `python -m http.server`
 - Navigate to `http://localhost:8000` in a browser, you should see the 
 contents of `index.html`
