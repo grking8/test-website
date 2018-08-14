@@ -22,6 +22,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
               - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+      - attach_workspace:
+          at: .
       - run:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh true
