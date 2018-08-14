@@ -12,9 +12,6 @@ jobs:
       - run:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh true
-      - run:
-          name: Create SSL files and configure web server
-          command: deploy-scripts/configure-webserver.sh
       - persist_to_workspace:
           root: .
           paths:
