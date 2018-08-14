@@ -2,16 +2,15 @@ version: 2
 jobs:
 
   build:
-    working_directory: ~/project
     docker:
-      - image: alpine:latest
+      - image: ubuntu:latest
     steps:
       - checkout
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
       - persist_to_workspace:
-          root: ~/project
+          root: .
           paths:
             - html
 
