@@ -7,7 +7,7 @@ DIR=/root/project/
 if [ $1 = true ]; then
     apk update
     apk add openssh-client
-    apk add git
+#    apk add git
 fi
 #mkdir -p ~/.ssh
 #ssh-keyscan -H $EXTERNAL_GITHOST >> ~/.ssh/known_hosts
