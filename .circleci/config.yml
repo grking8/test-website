@@ -6,6 +6,12 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+              - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+      - run:
+          name: Download external libraries
+          command: deploy-scripts/external-libs.sh true
       - persist_to_workspace:
           root: .
           paths:
