@@ -65,9 +65,9 @@ jobs:
 
 workflows:
   version: 2
-  configure-webserver-ssl-containerise-deploy-production:
+  build-configure-webserver-ssl-containerise-deploy-production:
     jobs:
-      - build:
+      - build
       - configure-webserver-ssl:
           requires:
             - build
