@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Download external libraries
-          command: deploy-scripts/external-libs.sh true
+          command: apk add git
       - persist_to_workspace:
           root: .
           paths:
