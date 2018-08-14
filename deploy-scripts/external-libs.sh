@@ -5,7 +5,7 @@ set -e
 DIR=/root/project/
 . ${DIR}deploy.cfg
 if [ $1 = true ]; then
-    apk update
+#    apk update
 #    apk add openssh-client
     apk add git
 fi
