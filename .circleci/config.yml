@@ -8,7 +8,9 @@ jobs:
       - checkout
       - run:
           name: Download external libraries
-          command: deploy-scripts/external-libs.sh true
+          command: |
+            apk update
+            apk add openssh-client
       - persist_to_workspace:
           root: .
           paths:
