@@ -2,6 +2,7 @@ version: 2
 jobs:
 
   build:
+    working_directory: ~/project
     docker:
       - image: alpine:latest
     steps:
@@ -10,7 +11,7 @@ jobs:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
       - persist_to_workspace:
-          root: .
+          root: ~/project
           paths:
             - html
 
@@ -22,8 +23,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
               - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
-      - attach_workspace:
-          at: .
       - run:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh true
