@@ -1,6 +1,16 @@
 version: 2
 jobs:
 
+  build:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - html
+
   configure-webserver-ssl:
     docker:
       - image: alpine:latest
@@ -57,7 +67,10 @@ workflows:
   version: 2
   configure-webserver-ssl-containerise-deploy-production:
     jobs:
+      - build:
       - configure-webserver-ssl:
+          requires:
+            - build
           filters:
             branches:
               only: master
