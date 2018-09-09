@@ -1,6 +1,19 @@
 version: 2
 jobs:
 
+  build:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run:
+          name: Build source files into HTML, CSS, and JS
+          command: deploy-scripts/build-website.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - html
+
   configure-webserver-ssl:
     docker:
       - image: alpine:latest
@@ -9,6 +22,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
               - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+      - attach_workspace:
+          at: .
       - run:
           name: Download external libraries
           command: deploy-scripts/external-libs.sh true
@@ -55,9 +70,15 @@ jobs:
 
 workflows:
   version: 2
-  configure-webserver-ssl-containerise-deploy-production:
+  build-configure-webserver-ssl-containerise-deploy-production:
     jobs:
+      - build:
+          filters:
+            branches:
+              only: master
       - configure-webserver-ssl:
+          requires:
+            - build
           filters:
             branches:
               only: master
