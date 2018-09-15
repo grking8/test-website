@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
 set -e
-echo $(pwd)
-. deploy.cfg
+
+DIR=/root/project/
+. ${DIR}deploy.cfg
 if [ $1 = true ]; then
     apk update
     apk add openssh-client
