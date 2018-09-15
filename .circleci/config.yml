@@ -12,7 +12,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - html
+            - $STATIC_DIR
 
   configure-webserver-ssl:
     docker:
@@ -71,15 +71,9 @@ workflows:
   build-configure-webserver-ssl-containerise-deploy-production:
     jobs:
       - build:
-          filters:
-            branches:
-              only: master
       - configure-webserver-ssl:
           requires:
             - build
-          filters:
-            branches:
-              only: master
       - containerise:
           requires:
             - configure-webserver-ssl
