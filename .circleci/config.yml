@@ -70,16 +70,10 @@ workflows:
   version: 2
   build-configure-webserver-ssl-containerise-deploy-production:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: master
+      - build
       - configure-webserver-ssl:
           requires:
             - build
-          filters:
-            branches:
-              only: master
       - containerise:
           requires:
             - configure-webserver-ssl
