@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 set -e
-
+echo $(pwd)
 . deploy.cfg
 if [ $1 = true ]; then
     apk update
