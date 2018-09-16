@@ -1,6 +1,6 @@
 # Summary
 
-Infrastructure as code for static websites
+Infrastructure as code for static HTTPS websites
 
 # Installation
 
