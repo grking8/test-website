@@ -10,4 +10,4 @@ rm -rf ${DIR}config
 cd  ..
 echo "Authenticate to Google Cloud Platform..."
 ${DEPLOY_SCRIPTS_REPO}/gcp/authenticate.sh
-${DEPLOY_SCRIPTS_REPO}/build-push-docker.sh circleci
+${DEPLOY_SCRIPTS_REPO}/build-push-docker.sh $CI_PROVIDER
