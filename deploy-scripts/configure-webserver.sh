@@ -3,7 +3,7 @@
 set -xe
 
 . deploy.cfg
-cd ../$DEPLOY_SCRIPTS_REPO/ssl
+cd ../${DEPLOY_SCRIPTS_REPO}/ssl
 echo "Create SSL files..."
 ./create-ssl-files.sh true
 mkdir -p ../../project/config

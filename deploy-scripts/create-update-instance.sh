@@ -7,4 +7,4 @@ DIR=/root/project/
 cd ..
 echo "Authenticate to Google Cloud Platform..."
 ${DEPLOY_SCRIPTS_REPO}/gcp/authenticate.sh
-${DEPLOY_SCRIPTS_REPO}/gcp/create-update-instance.sh circleci
+${DEPLOY_SCRIPTS_REPO}/gcp/create-update-instance.sh $CI_PROVIDER
