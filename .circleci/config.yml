@@ -21,8 +21,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - $STATIC_DIR
-            - bootstrap/${BOOTSTRAP_REPO}
+            - html
+            - bootstrap/deploy-scripts
 
   renew-ssl:
     docker:
