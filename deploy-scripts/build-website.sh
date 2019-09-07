@@ -2,7 +2,9 @@
 
 set -xe
 
-. deploy.cfg
-mkdir -p $STATIC_DIR
+mkdir $STATIC_DIR
 cp -r src/* $STATIC_DIR
 apk add ca-certificates
+if [ -d ".well-known/acme-challenge" ]; then
+    cp -r ".well-known" $STATIC_DIR
+fi

@@ -6,77 +6,82 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+          - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+      - run:
+          name: Download external build scripts
+          command: deploy-scripts/bootstrap.sh
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
       - persist_to_workspace:
           root: .
           paths:
-            - html
+            - $STATIC_DIR
+            - bootstrap/${BOOTSTRAP_REPO}
 
-  configure-webserver-ssl:
+  renew-ssl:
     docker:
       - image: alpine:latest
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-              - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
-      - run:
-          name: Download external libraries
-          command: deploy-scripts/external-repos.sh true
-      - run:
-          name: Create SSL files and configure web server
-          command: deploy-scripts/configure-webserver.sh
-      - persist_to_workspace:
-          root: .
-          paths:
-            - config
-
-  containerise:
-    docker:
-      - image: google/cloud-sdk:latest
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-              - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
-      - setup_remote_docker
       - attach_workspace:
           at: .
       - run:
-          name: Download external libraries
-          command: deploy-scripts/external-repos.sh false
+          name: Get SSL files from certbot to update environment variables
+          command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/renew-ssl.sh
+
+  create-ssl:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run:
-          name: Build Docker image and push to container registry
-          command: deploy-scripts/containerise.sh
+          name: Create SSL files
+          command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/create-ssl-files.sh true
+      - persist_to_workspace:
+          root: .
+          paths:
+            - fullchain.pem
+            - privkey.pem
+
+  containerise:
+      docker:
+        - image: google/cloud-sdk:latest
+      steps:
+        - checkout
+        - setup_remote_docker
+        - attach_workspace:
+            at: .
+        - run:
+            name: Build Docker image and push to container registry
+            command: bootstrap/${BOOTSTRAP_REPO}/static-website/containerise.sh
 
   deploy-production:
     docker:
       - image: google/cloud-sdk:latest
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-              - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+      - attach_workspace:
+          at: .
       - run:
-          name: Download external libraries
-          command: deploy-scripts/external-repos.sh false
-      - run:
-          name: Create or update GCP instance
-          command: deploy-scripts/create-update-instance.sh
+          name: Create or update GCP instance and run Docker image
+          command: bootstrap/${BOOTSTRAP_REPO}/static-website/gcp/authenticate-create-update-instance.sh
 
 workflows:
   version: 2
-  build-configure-webserver-ssl-containerise-deploy-production:
+  build-ssl-containerise-deploy:
     jobs:
       - build
-      - configure-webserver-ssl:
+      - create-ssl:
           requires:
             - build
       - containerise:
           requires:
-            - configure-webserver-ssl
+            - create-ssl
           filters:
             branches:
               only: master
@@ -86,3 +91,25 @@ workflows:
           filters:
             branches:
               only: master
+  build-renew-ssl-containerise-deploy:
+    triggers:
+      - schedule:
+          cron: "0 4 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
+      - renew-ssl:
+          requires:
+            - build
+      - create-ssl:
+          requires:
+            - renew-ssl
+      - containerise:
+          requires:
+            - create-ssl
+      - deploy-production:
+          requires:
+            - containerise

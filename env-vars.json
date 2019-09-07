@@ -1,0 +1,14 @@
+{
+  "GCP_INSTANCE": "test-website-github-circleci",
+  "GCP_INSTANCE_MACHINE_TYPE": "f1-micro",
+  "GCP_CONTAINER_REGISTRY": "gcr.io",
+  "GCP_COMPUTE_ZONE": "us-east1-b",
+  "GCP_PROJECT_ID": "valid-might-235515",
+  "BOOTSTRAP_REPO_URL": "gitlab.com/zorncapital-devops/deploy-scripts.git",
+  "BOOTSTRAP_REPO_DOMAIN": "gitlab.com",
+  "BOOTSTRAP_REPO": "deploy-scripts",
+  "STATIC_DIR": "html",
+  "CI_PROVIDER": "circleci",
+  "DOMAIN": "booksdejalu.com",
+  "GIT_USER_NAME": "family-guy"
+}
