@@ -14,7 +14,7 @@ jobs:
           command: deploy-scripts/bootstrap.sh
       - run:
           name: Set project-level build environment variables
-          command: bootstrap/${BOOTSTRAP_REPO}/circleci/update_env_vars.py env-vars.json
+          command: python bootstrap/${BOOTSTRAP_REPO}/circleci/update_env_vars.py env-vars.json
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
