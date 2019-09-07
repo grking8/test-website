@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -e
+set -xe
 
 ssh-keyscan -H $BOOTSTRAP_REPO_DOMAIN >> ~/.ssh/known_hosts
 BOOTSTRAP_DIR="bootstrap"
