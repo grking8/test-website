@@ -67,7 +67,7 @@ jobs:
             at: .
         - run:
             name: Build Docker image and push to container registry
-            command: bootstrap/${BOOTSTRAP_REPO}/static-website/containerise.sh
+            command: bootstrap/${BOOTSTRAP_REPO}/static-website/containerise.sh false
 
   deploy-production:
     docker:
