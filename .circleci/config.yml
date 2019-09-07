@@ -29,6 +29,8 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - run:
+          command: apk add ca-certificates
       - attach_workspace:
           at: .
       - run:
