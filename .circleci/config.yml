@@ -93,13 +93,18 @@ workflows:
             - create-ssl
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - redesign
+
       - deploy-production:
           requires:
             - containerise
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - redesign
   build-renew-ssl-containerise-deploy:
     triggers:
       - schedule:
