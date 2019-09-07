@@ -2,7 +2,6 @@
 
 set -e
 
-mkdir ~/.ssh
 ssh-keyscan -H $BOOTSTRAP_REPO_DOMAIN >> ~/.ssh/known_hosts
 BOOTSTRAP_DIR="bootstrap"
 mkdir $BOOTSTRAP_DIR
