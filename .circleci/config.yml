@@ -3,15 +3,18 @@ jobs:
 
   build:
     docker:
-      - image: alpine:latest
+      - image: continuumio/miniconda3:latest
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
           - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
-          name: Download external build scripts
+          name: Download external build scripts and build conda environment
           command: deploy-scripts/bootstrap.sh
+      - run:
+          name: Set project-level build environment variables
+          command: bootstrap/${BOOTSTRAP_REPO}/circleci/update_env_vars.py env-vars.json
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh

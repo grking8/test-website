@@ -2,12 +2,14 @@
 
 set -e
 
-apk update
-apk add openssh-client
-apk add git
 mkdir ~/.ssh
 ssh-keyscan -H $BOOTSTRAP_REPO_DOMAIN >> ~/.ssh/known_hosts
-mkdir bootstrap
-cd bootstrap
+BOOTSTRAP_DIR="bootstrap"
+mkdir $BOOTSTRAP_DIR
+cd $BOOTSTRAP_DIR
 git clone $BOOTSTRAP_REPO_URL
 cd ..
+echo "Update conda"
+conda update conda
+echo "Build conda environment"
+conda env update --name root --file ${BOOTSTRAP_DIR}/${BOOTSTRAP_REPO}/environment.yml
