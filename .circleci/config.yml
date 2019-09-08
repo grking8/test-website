@@ -29,6 +29,9 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+          - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
           name: Install latest ca-certificates
           command: apk add ca-certificates
@@ -108,7 +111,7 @@ workflows:
   build-renew-ssl-containerise-deploy:
     triggers:
       - schedule:
-          cron: "49 11 * * *"
+          cron: "07 12 * * *"
           filters:
             branches:
               only:
