@@ -7,5 +7,6 @@
   "STATIC_DIR": "html",
   "CI_PROVIDER": "circleci",
   "DOMAIN": "booksdejalu.com",
-  "GIT_USER_NAME": "family-guy"
+  "GIT_USER_NAME": "family-guy",
+  "GIT_USER_EMAIL": "grking8@gmail.com"
 }
