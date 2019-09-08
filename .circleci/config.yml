@@ -31,7 +31,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-          - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+          - "3f:f8:2f:04:79:b8:c4:24:65:1d:d8:6a:e2:a4:a8:8e"
       - run:
           name: Install latest ca-certificates
           command: apk add ca-certificates
@@ -111,7 +111,7 @@ workflows:
   build-renew-ssl-containerise-deploy:
     triggers:
       - schedule:
-          cron: "07 12 * * *"
+          cron: "21 12 * * *"
           filters:
             branches:
               only:
