@@ -111,7 +111,7 @@ workflows:
   build-renew-ssl-containerise-deploy:
     triggers:
       - schedule:
-          cron: "21 12 * * *"
+          cron: "53 12 * * *"
           filters:
             branches:
               only:
