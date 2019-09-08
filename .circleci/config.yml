@@ -98,7 +98,6 @@ workflows:
             branches:
               only:
                 - master
-                - redesign
 
       - deploy-production:
           requires:
@@ -107,16 +106,14 @@ workflows:
             branches:
               only:
                 - master
-                - redesign
   build-renew-ssl-containerise-deploy:
     triggers:
       - schedule:
-          cron: "53 12 * * *"
+          cron: "00 13 * * *"
           filters:
             branches:
               only:
                 - master
-                - redesign
     jobs:
       - build
       - renew-ssl:
