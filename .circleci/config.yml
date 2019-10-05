@@ -26,6 +26,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install latest ca-certificates
+          command: apk add ca-certificates
+      - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
       - persist_to_workspace:
