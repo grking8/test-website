@@ -1,7 +1,7 @@
 version: 2
 jobs:
 
-  build:
+  pre-build:
     docker:
       - image: continuumio/miniconda3:latest
     steps:
@@ -15,6 +15,16 @@ jobs:
       - run:
           name: Set project-level build environment variables
           command: python bootstrap/${BOOTSTRAP_REPO}/circleci/update_env_vars.py --file env-vars.json
+      - persist_to_workspace:
+          root: .
+          paths:
+            - bootstrap/deploy-scripts
+
+  build:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
@@ -22,7 +32,6 @@ jobs:
           root: .
           paths:
             - html
-            - bootstrap/deploy-scripts
 
   renew-ssl:
     docker:
@@ -84,7 +93,10 @@ workflows:
   version: 2
   build-ssl-containerise-deploy:
     jobs:
-      - build
+      - pre-build
+      - build:
+          requires:
+            - pre-build
       - create-ssl:
           requires:
             - build
@@ -95,7 +107,6 @@ workflows:
             branches:
               only:
                 - master
-
       - deploy-production:
           requires:
             - containerise
@@ -112,7 +123,10 @@ workflows:
               only:
                 - master
     jobs:
-      - build
+      - pre-build
+      - build:
+          requires:
+            - pre-build
       - renew-ssl:
           requires:
             - build
