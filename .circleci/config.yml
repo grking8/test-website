@@ -33,6 +33,10 @@ jobs:
     steps:
       - checkout
       - run:
+          command: |
+            echo $HELLO
+            echo $BOOTSTRAP_REPO
+      - run:
           name: Install latest ca-certificates
           command: apk add ca-certificates
       - run:
