@@ -10,6 +10,13 @@ jobs:
           fingerprints:
             - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
       - run:
+          command: python deploy-scripts/poc.py
+      - run:
+          command: |
+            source $BASH_ENV
+            echo $HELLO
+            echo $BOOTSTRAP_REPO
+      - run:
           name: Download external build scripts and build conda environment
           command: deploy-scripts/bootstrap.sh
       - run:
