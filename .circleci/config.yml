@@ -16,6 +16,7 @@ jobs:
             source $BASH_ENV
             echo $HELLO
             echo $BOOTSTRAP_REPO
+            cp $BASH_ENV myenvs.txt
       - run:
           name: Download external build scripts and build conda environment
           command: deploy-scripts/bootstrap.sh
@@ -26,15 +27,18 @@ jobs:
           root: .
           paths:
             - bootstrap/deploy-scripts
+            - myenvs.txt
 
   build:
     docker:
       - image: alpine:latest
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           command: |
-            source $BASH_ENV
+            source myenvs.txt
             echo $HELLO
             echo $BOOTSTRAP_REPO
       - run:
