@@ -35,10 +35,10 @@ jobs:
           at: .
       - run:
           name: Load environment variables
-          command: . $(pwd)/bash__profile
+          command: . $(pwd)/bash__profile && env
       - run:
           name: Build source files into HTML, CSS, and JS
-          command: deploy-scripts/build-website.sh
+          command: env && deploy-scripts/build-website.sh
       - persist_to_workspace:
           root: .
           paths:
