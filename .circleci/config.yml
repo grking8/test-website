@@ -1,33 +1,25 @@
 version: 2
 jobs:
 
-  pre-build:
+  build:
     docker:
       - image: continuumio/miniconda3:latest
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "$EXTERNAL_GITHOST_SSH_FINGERPRINT"
+            - $EXTERNAL_GITHOST_SSH_FINGERPRINT
       - run:
           name: Download external build scripts and build conda environment
           command: deploy-scripts/bootstrap.sh
       - run:
-          name: Set project-level build environment variables
-          command: python bootstrap/${BOOTSTRAP_REPO}/circleci/update_env_vars.py --file env-vars.json
-      - persist_to_workspace:
-          root: .
-          paths:
-            - bootstrap/deploy-scripts
-
-  build:
-    docker:
-      - image: alpine:latest
-    steps:
-      - checkout
+          name: Create bash profile
+          command: |
+            python bootstrap/${BOOTSTRAP_REPO}/bash_profile.py
+            cp $BASH_ENV bash__profile
       - run:
-          name: Install latest ca-certificates
-          command: apk add ca-certificates
+          name: Load environment variables
+          command: source bash__profile
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
@@ -35,6 +27,8 @@ jobs:
           root: .
           paths:
             - html
+            - bash__profile
+            - bootstrap/deploy-scripts
 
   renew-ssl:
     docker:
@@ -46,6 +40,9 @@ jobs:
           command: apk add ca-certificates
       - attach_workspace:
           at: .
+      - run:
+          name: Load environment variables
+          command: source bash__profile
       - run:
           name: Get SSL files from certbot to update environment variables
           command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/renew-ssl.sh
@@ -60,6 +57,9 @@ jobs:
           command: apk add ca-certificates
       - attach_workspace:
           at: .
+      - run:
+          name: Load environment variables
+          command: source bash__profile
       - run:
           name: Create SSL files
           command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/create-ssl-files.sh true
@@ -78,6 +78,9 @@ jobs:
         - attach_workspace:
             at: .
         - run:
+            name: Load environment variables
+            command: source bash__profile
+        - run:
             name: Build Docker image and push to container registry
             command: bootstrap/${BOOTSTRAP_REPO}/static-website/containerise.sh false
 
@@ -89,6 +92,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Load environment variables
+          command: source bash__profile
+      - run:
           name: Create or update GCP instance and run Docker image
           command: bootstrap/${BOOTSTRAP_REPO}/static-website/gcp/authenticate-create-update-instance.sh
 
@@ -96,10 +102,7 @@ workflows:
   version: 2
   build-ssl-containerise-deploy:
     jobs:
-      - pre-build
-      - build:
-          requires:
-            - pre-build
+      - build
       - create-ssl:
           requires:
             - build
@@ -126,10 +129,7 @@ workflows:
               only:
                 - master
     jobs:
-      - pre-build
-      - build:
-          requires:
-            - pre-build
+      - build
       - renew-ssl:
           requires:
             - build
