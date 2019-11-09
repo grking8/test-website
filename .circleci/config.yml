@@ -56,7 +56,7 @@ jobs:
           at: .
       - run:
           name: Load environment variables
-          command: source bash__profile
+          command: . $(pwd)/bash__profile
       - run:
           name: Get SSL files from certbot to update environment variables
           command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/renew-ssl.sh
