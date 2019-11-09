@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Create bash profile
           command: |
-            python deploy-scripts/bash_profile.py
+            python bootstrap/${BOOTSTRAP_REPO}/bash_profile.py
             cp $BASH_ENV bash__profile
       - run:
           name: Load environment variables
