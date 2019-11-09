@@ -35,7 +35,7 @@ jobs:
           at: .
       - run:
           name: Load environment variables
-          command: source bash__profile
+          command: . $(pwd)/bash__profile
       - run:
           name: Build source files into HTML, CSS, and JS
           command: deploy-scripts/build-website.sh
