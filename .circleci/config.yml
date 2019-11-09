@@ -1,7 +1,7 @@
 version: 2
 jobs:
 
-  build:
+  bootstrap:
     docker:
       - image: continuumio/miniconda3:latest
     steps:
@@ -17,6 +17,20 @@ jobs:
           command: |
             python bootstrap/${BOOTSTRAP_REPO}/bash_profile.py
             cp $BASH_ENV bash__profile
+      - persist_to_workspace:
+          root: .
+          paths:
+            - bash__profile
+            - bootstrap/deploy-scripts
+
+  build:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run:
+          name: Install latest ca-certificates
+          command: apk add ca-certificates
       - run:
           name: Load environment variables
           command: source bash__profile
@@ -27,8 +41,6 @@ jobs:
           root: .
           paths:
             - html
-            - bash__profile
-            - bootstrap/deploy-scripts
 
   renew-ssl:
     docker:
@@ -99,7 +111,10 @@ workflows:
   version: 2
   build-ssl-containerise-deploy:
     jobs:
-      - build
+      - bootstrap
+      - build:
+          requires:
+            - bootstrap
       - create-ssl:
           requires:
             - build
@@ -126,7 +141,10 @@ workflows:
               only:
                 - master
     jobs:
-      - build
+      - bootstrap
+      - build:
+          requires:
+            - bootstrap
       - renew-ssl:
           requires:
             - build
