@@ -55,6 +55,7 @@ jobs:
           at: .
       - run:
           name: Get SSL files from certbot to update environment variables
+          no_output_timeout: 40m
           command: |
             source bash__profile
             bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/renew-ssl.sh
