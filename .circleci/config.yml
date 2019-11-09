@@ -58,9 +58,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Load environment variables
-          command: source bash__profile
-      - run:
           name: Create SSL files
           command: bootstrap/${BOOTSTRAP_REPO}/static-website/ssl/create-ssl-files.sh true
       - persist_to_workspace:
