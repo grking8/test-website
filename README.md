@@ -4,7 +4,7 @@ Infrastructure as code for static HTTPS websites
 
 # Installation
 
-Assuming you have Python 3 installed as per `$(which python) --version`
+Assuming you have Python 3 installed as per `python --version`
 
 - Clone the repository `git clone https://github.com/family-guy/test-website.git`
 - `cd /path/to/test-website`
