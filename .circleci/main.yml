@@ -1,38 +1,33 @@
 version: 2.1
 parameters:
+  gcp-project-id:
+    type: string
   gcp-identity-service-account:
     type: string
-    default: ""
   gcp-identity-service-account-email:
     type: string
-    default: ""
   gcp-identity-service-account-key-path:
     type: string
-    default: ""
   gcp-resource-service-account:
     type: string
-    default: ""
+  gcp-resource-service-account_email:
+    type: string
   gcp-region:
     type: string
-    default: ""
   gcloud-sdk-version:
     type: string
-    default: ""
   static-dir:
     type: string
-    default: ""
   domain:
     type: string
-    default: ""
   subdomain:
     type: string
-    default: ""
   main-page:
     type: string
-    default: ""
   not-found-page:
     type: string
-    default: ""
+  initial-run:
+    type: string
 jobs:
   build-static-files:
     docker:
@@ -40,7 +35,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: export $STATIC_DIR
+          command: export STATIC_DIR="<< pipeline.parameters.static-dir >>"
       - run:
           command: deploy-scripts/build-website.sh
       - persist_to_workspace:
@@ -56,6 +51,7 @@ jobs:
           at: .
       - run:
           command: |
+            export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
@@ -77,6 +73,7 @@ jobs:
           at: .
       - run:
           command: |
+            export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
@@ -88,7 +85,7 @@ jobs:
 workflows:
   build-create:
     when:
-      << pipeline.parameters.manual >>
+      equals: [ true, << pipeline.parameters.initial-run >> ]
     jobs:
       - build-static-files
       - create-resources:
@@ -96,7 +93,7 @@ workflows:
             - build-static-files
   build-deploy:
     when:
-      not: pipeline.parameters.manual >>
+      equals: [ false, << pipeline.parameters.initial-run >> ]
     jobs:
       - build-static-files
       - deploy-prod:
