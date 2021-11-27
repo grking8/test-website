@@ -10,7 +10,7 @@ parameters:
     type: string
   gcp-resource-service-account:
     type: string
-  gcp-resource-service-account-email:
+  gcp-resource-service-account-email-config:
     type: string
   gcp-region:
     type: string
@@ -26,7 +26,7 @@ parameters:
     type: string
   not-found-page:
     type: string
-  manual:
+  manual-config:
     type: boolean
 defaults: &defaults
   docker:
@@ -55,7 +55,7 @@ jobs:
             export << pipeline.parameters.gcp-identity-service-account-key >>
             export << pipeline.parameters.gcp-identity-service-account-key-path >>
             export << pipeline.parameters.gcp-identity-service-account-email >>
-            export << pipeline.parameters.gcp-identity-resource-account-email >>
+            export << pipeline.parameters.gcp-resource-service-account-email-config >>
             export << pipeline.parameters.gcp-project-id >>
             export << pipeline.parameters.gcp-region >>
             export << pipeline.parameters.subdomain >>
@@ -85,7 +85,7 @@ jobs:
           command: gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
 workflows:
   build-create:
-    when: << pipeline.parameters.manual >>
+    when: << pipeline.parameters.manual-config >>
     jobs:
       - build-static-files
       - create-resources:
@@ -93,7 +93,7 @@ workflows:
             - build-static-files
   build-deploy:
     when:
-      not: << pipeline.parameters.manual >>
+      not: << pipeline.parameters.manual-config >>
     jobs:
       - build-static-files
       - deploy-prod:
