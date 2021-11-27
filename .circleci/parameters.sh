@@ -4,6 +4,9 @@ set -xe
 
 sudo apt update || sudo apt update
 sudo apt install jq
+if [ -z "$GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL" ]; then
+  GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="${GCP_RESOURCE_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
+fi
 jq -n \
 --arg gcp_project_id "$GCP_PROJECT_ID" \
 --arg gcp_identity_service_account "$GCP_IDENTITY_SERVICE_ACCOUNT" \
