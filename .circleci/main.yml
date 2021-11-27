@@ -2,35 +2,46 @@ version: 2.1
 parameters:
   gcp-project-id:
     type: string
+    default: ""
   gcp-identity-service-account:
     type: string
+    default: ""
   gcp-identity-service-account-email:
     type: string
+    default: ""
   gcp-identity-service-account-key-path:
     type: string
+    default: ""
   gcp-resource-service-account:
     type: string
+    default: ""
   gcp-resource-service-account-email-config:
     type: string
+    default: ""
   gcp-region:
     type: string
+    default: ""
   gcloud-sdk-version:
     type: string
+    default: ""
   static-dir:
     type: string
+    default: ""
   domain:
     type: string
+    default: ""
   subdomain:
     type: string
+    default: ""
   main-page:
     type: string
+    default: ""
   not-found-page:
     type: string
+    default: ""
   manual-config:
     type: boolean
-defaults: &defaults
-  docker:
-    - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>
+    default: false
 jobs:
   build-static-files:
     docker:
@@ -46,6 +57,8 @@ jobs:
           paths:
             - << pipeline.parameters.static-dir >>
   create-resources:
+    docker:
+      - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>
     steps:
       - checkout
       - attach_workspace:
@@ -68,6 +81,8 @@ jobs:
       - run:
           command: deploy-scripts/create-resources.sh
   deploy-prod:
+    docker:
+      - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>
     steps:
       - checkout
       - attach_workspace:
