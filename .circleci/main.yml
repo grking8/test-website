@@ -66,7 +66,6 @@ jobs:
       - run:
           command: |
             export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
-            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
             export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-resource-service-account-email >>"
@@ -89,7 +88,6 @@ jobs:
           command: |
             export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
-            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
             export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
       - run:
@@ -103,6 +101,8 @@ workflows:
     jobs:
       - build-static-files
       - create-resources:
+          type:
+            approval
           requires:
             - build-static-files
   build-deploy:
