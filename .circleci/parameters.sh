@@ -2,8 +2,8 @@
 
 set -xe
 
-apt update
-apt install jq
+sudo apt update
+sudo apt install jq
 jq -n \
 --arg gcp_project_id "$GCP_PROJECT_ID" \
 --arg gcp_identity_service_account "$GCP_IDENTITY_SERVICE_ACCOUNT" \
@@ -19,7 +19,7 @@ jq -n \
 --arg main_page "$MAIN_PAGE" \
 --arg not_found_page "$NOT_FOUND_PAGE" \
 --arg manual "$MANUAL" \
-'{gcp-project-id: $gcp_project_id, \
+"{gcp-project-id: $gcp_project_id, \
 gcp-identity-service-account: $gcp_identity_service_account, \
 gcp-identity-service-account_email: $gcp_identity_service_account_email, \
 gcp-identity-service-account_key_path: $gcp_identity_service_account_key_path, \
@@ -32,4 +32,4 @@ domain: $domain, \
 subdomain: $subdomain, \
 main-page: $main_page, \
 not-found-page: $not_found_page, \
-manual: $manual}' >> "$1"
+manual: $manual}" >> "$1"
