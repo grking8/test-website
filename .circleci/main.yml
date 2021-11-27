@@ -49,6 +49,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create static files
           command: |
             export STATIC_DIR="<< pipeline.parameters.static-dir >>"
             deploy-scripts/build-website.sh
@@ -64,6 +65,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Authenticate gcloud and create resources
           command: |
             export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
@@ -73,10 +75,8 @@ jobs:
             export MAIN_PAGE="<< pipeline.parameters.main-page >>"
             export NOT_FOUND_PAGE="<< pipeline.parameters.not-found-page >>"
             export STATIC_DIR="<< pipeline.parameters.static-dir >>"
-      - run:
-          command: deploy-scripts/authenticate.sh
-      - run:
-          command: deploy-scripts/create-resources.sh
+            deploy-scripts/authenticate.sh
+            deploy-scripts/create-resources.sh
   deploy-prod:
     docker:
       - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>
@@ -85,15 +85,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Authenticate gcloud and upload static files to GCP Cloud Storage
           command: |
             export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
             export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
-      - run:
-          command: deploy-scripts/authenticate.sh
-      - run:
-          command: gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
+            deploy-scripts/authenticate.sh
+            gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
 workflows:
   build-create:
     when:
