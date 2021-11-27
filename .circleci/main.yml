@@ -71,6 +71,7 @@ jobs:
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
             export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-resource-service-account-email >>"
+            export GCP_RESOURCE_SERVICE_ACCOUNT="<< pipeline.parameters.gcp-resource-service-account >>"
             export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
             export MAIN_PAGE="<< pipeline.parameters.main-page >>"
             export NOT_FOUND_PAGE="<< pipeline.parameters.not-found-page >>"
