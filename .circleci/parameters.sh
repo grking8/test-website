@@ -2,7 +2,7 @@
 
 set -xe
 
-sudo apt update
+sudo apt update || sudo apt update
 sudo apt install jq
 jq -n \
 --arg gcp_project_id "$GCP_PROJECT_ID" \
