@@ -99,10 +99,13 @@ workflows:
       equal: [ "true", << pipeline.parameters.initial-run >> ]
     jobs:
       - build-static-files
-      - create-resources:
+      - hold-create-resources:
           type: approval
           requires:
             - build-static-files
+      - create-resources:
+          requires:
+            - hold-create-resources
   build-deploy:
     when:
       equal: [ "false", << pipeline.parameters.initial-run >> ]
