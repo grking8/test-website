@@ -72,6 +72,7 @@ jobs:
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
             export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-resource-service-account-email >>"
             export GCP_RESOURCE_SERVICE_ACCOUNT="<< pipeline.parameters.gcp-resource-service-account >>"
+            export GCP_REGION="<< pipeline.parameters.gcp-region >>"
             export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
             export MAIN_PAGE="<< pipeline.parameters.main-page >>"
             export NOT_FOUND_PAGE="<< pipeline.parameters.not-found-page >>"
@@ -91,6 +92,7 @@ jobs:
             export GCP_PROJECT_ID="<< pipeline.parameters.gcp-project-id >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
+            export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-resource-service-account-email >>"
             export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
             deploy-scripts/authenticate.sh
             gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
