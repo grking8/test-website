@@ -40,8 +40,8 @@ parameters:
     type: string
     default: ""
   manual-config:
-    type: boolean
-    default: false
+    type: string
+    default: "false"
 jobs:
   build-static-files:
     docker:
@@ -100,7 +100,8 @@ jobs:
           command: gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
 workflows:
   build-create:
-    when: << pipeline.parameters.manual-config >>
+    when:
+      equal: [ true, << pipeline.parameters.manual-config >> ]
     jobs:
       - build-static-files
       - create-resources:
@@ -108,7 +109,7 @@ workflows:
             - build-static-files
   build-deploy:
     when:
-      not: << pipeline.parameters.manual-config >>
+      equal: [ false, << pipeline.parameters.manual-config >> ]
     jobs:
       - build-static-files
       - deploy-prod:
