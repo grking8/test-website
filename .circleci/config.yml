@@ -21,7 +21,7 @@ jobs:
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="${GCP_IDENTITY_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="/tmp/key.json"
             export GCP_RESOURCE_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-resource"
-            export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL=$(( << pipeline.parameters.gcp-resource-service-account-email >> == "" ? "${GCP_RESOURCE_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" : << pipeline.parameters.gcp-resource-service-account-email >> ))
+            export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL=$(( "<< pipeline.parameters.gcp-resource-service-account-email >>" == "" ? "${GCP_RESOURCE_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" : << pipeline.parameters.gcp-resource-service-account-email >> ))
             export GCP_REGION="US-WEST1"
             export GCLOUD_SDK_VERSION="358.0.0"
             export STATIC_DIR="dist"
