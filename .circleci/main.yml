@@ -6,11 +6,11 @@ parameters:
     type: string
   gcp-identity-service-account-email:
     type: string
-  gcp-identity-service_account_key_path:
+  gcp-identity-service-account-key-path:
     type: string
-  gcp-resource-service_account:
+  gcp-resource-service-account:
     type: string
-  gcp-resource-service_account_email:
+  gcp-resource-service-account-email:
     type: string
   gcp-region:
     type: string
@@ -28,7 +28,6 @@ parameters:
     type: string
   manual:
     type: boolean
-    default: false
 defaults: &defaults
   docker:
     - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>

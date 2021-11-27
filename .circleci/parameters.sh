@@ -18,6 +18,7 @@ jq -n \
 --arg subdomain "$SUBDOMAIN" \
 --arg main_page "$MAIN_PAGE" \
 --arg not_found_page "$NOT_FOUND_PAGE" \
+--arg manual "$MANUAL" \
 '{gcp-project-id: $gcp_project_id, \
 gcp-identity-service-account: $gcp_identity_service_account, \
 gcp-identity-service-account_email: $gcp_identity_service_account_email, \
@@ -30,4 +31,5 @@ static-dir: $static_dir, \
 domain: $domain, \
 subdomain: $subdomain, \
 main-page: $main_page, \
-not-found-page: $not_found_page}' >> "$1"
+not-found-page: $not_found_page, \
+manual: $manual}' >> "$1"
