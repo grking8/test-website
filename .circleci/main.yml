@@ -49,9 +49,9 @@ jobs:
     steps:
       - checkout
       - run:
-          command: export STATIC_DIR="<< pipeline.parameters.static-dir >>"
-      - run:
-          command: deploy-scripts/build-website.sh
+          command: |
+            export STATIC_DIR="<< pipeline.parameters.static-dir >>"
+            deploy-scripts/build-website.sh
       - persist_to_workspace:
           root: .
           paths:
@@ -97,17 +97,16 @@ jobs:
 workflows:
   build-create:
     when:
-      equals: [ true, << pipeline.parameters.initial-run >> ]
+      equals: [ "true", << pipeline.parameters.initial-run >> ]
     jobs:
       - build-static-files
       - create-resources:
-          type:
-            approval
+          type: approval
           requires:
             - build-static-files
   build-deploy:
     when:
-      equals: [ false, << pipeline.parameters.initial-run >> ]
+      equals: [ "false", << pipeline.parameters.initial-run >> ]
     jobs:
       - build-static-files
       - deploy-prod:
