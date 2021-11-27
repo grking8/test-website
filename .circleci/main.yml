@@ -1,8 +1,5 @@
 version: 2.1
 parameters:
-  gcp-project-id:
-    type: string
-    default: ""
   gcp-identity-service-account:
     type: string
     default: ""
@@ -13,9 +10,6 @@ parameters:
     type: string
     default: ""
   gcp-resource-service-account:
-    type: string
-    default: ""
-  gcp-resource-service-account-email-config:
     type: string
     default: ""
   gcp-region:
@@ -39,9 +33,6 @@ parameters:
   not-found-page:
     type: string
     default: ""
-  manual-config:
-    type: string
-    default: "false"
 jobs:
   build-static-files:
     docker:
@@ -65,17 +56,14 @@ jobs:
           at: .
       - run:
           command: |
-            export << pipeline.parameters.gcp-identity-service-account-key >>
-            export << pipeline.parameters.gcp-identity-service-account-key-path >>
-            export << pipeline.parameters.gcp-identity-service-account-email >>
-            export << pipeline.parameters.gcp-resource-service-account-email-config >>
-            export << pipeline.parameters.gcp-project-id >>
-            export << pipeline.parameters.gcp-region >>
-            export << pipeline.parameters.subdomain >>
-            export << pipeline.parameters.main-page >>
-            export << pipeline.parameters.not-found-page >>
-            export << pipeline.parameters.static-dir >>
-            export CIRCLE_PROJECT_REPONAME
+            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
+            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
+            export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
+            export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-resource-service-account-email >>"
+            export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
+            export MAIN_PAGE="<< pipeline.parameters.main-page >>"
+            export NOT_FOUND_PAGE="<< pipeline.parameters.not-found-page >>"
+            export STATIC_DIR="<< pipeline.parameters.static-dir >>"
       - run:
           command: deploy-scripts/authenticate.sh
       - run:
@@ -89,11 +77,10 @@ jobs:
           at: .
       - run:
           command: |
-            export << pipeline.parameters.gcp-identity-service-account-key >>
-            export << pipeline.parameters.gcp-identity-service-account-key-path >>
-            export << pipeline.parameters.gcp-identity-service-account-email >>
-            export << pipeline.parameters.gcp-project-id >>
-            export << pipeline.parameters.subdomain >>
+            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY="<< pipeline.parameters.gcp-identity-service-account-key >>"
+            export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="<< pipeline.parameters.gcp-identity-service-account-key-path >>"
+            export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="<< pipeline.parameters.gcp-identity-service-account-email >>"
+            export SUBDOMAIN="<< pipeline.parameters.subdomain >>"
       - run:
           command: deploy-scripts/authenticate.sh
       - run:
@@ -101,7 +88,7 @@ jobs:
 workflows:
   build-create:
     when:
-      equal: [ true, << pipeline.parameters.manual-config >> ]
+      << pipeline.parameters.manual >>
     jobs:
       - build-static-files
       - create-resources:
@@ -109,7 +96,7 @@ workflows:
             - build-static-files
   build-deploy:
     when:
-      equal: [ false, << pipeline.parameters.manual-config >> ]
+      not: pipeline.parameters.manual >>
     jobs:
       - build-static-files
       - deploy-prod:

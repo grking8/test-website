@@ -5,7 +5,7 @@ parameters:
     default: false
   gcp-resource-service-account-email:
     type: string
-    default: ""
+    default: "${CIRCLE_PROJECT_REPONAME}-ci-resource@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
 setup: true
 orbs:
   continuation: circleci/continuation@0.2.0
@@ -16,7 +16,6 @@ jobs:
       - checkout
       - run:
           command: |
-            export GCP_PROJECT_ID="testing-203707"
             export GCP_IDENTITY_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-identity"
             export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="${GCP_IDENTITY_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
             export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="/tmp/key.json"
