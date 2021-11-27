@@ -8,7 +8,7 @@ jq -n \
 --arg gcp_identity_service_account "$GCP_IDENTITY_SERVICE_ACCOUNT" \
 --arg gcp_identity_service_account_email "$GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL" \
 --arg gcp_identity_service_account_key_path "$GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH" \
---arg gcp_resource_service_account_email "$GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL" \
+--arg gcp_resource_service_account "$GCP_RESOURCE_SERVICE_ACCOUNT" \
 --arg gcp_region "$GCP_REGION" \
 --arg gcloud_sdk_version "$GCLOUD_SDK_VERSION" \
 --arg static_dir "$STATIC_DIR" \

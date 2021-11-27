@@ -3,14 +3,14 @@
 set -xe
 
 gcloud deployment-manager deployments create \
-"${CI_PROJECT_NAME}-service-account" \
+"${CIRCLE_PROJECT_REPONAME}-service-account" \
 --template "dm_templates/service_account.py" \
 --properties \
 "GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL:${GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL},\
 GCP_RESOURCE_SERVICE_ACCOUNT:${GCP_RESOURCE_SERVICE_ACCOUNT}"
 
 gcloud deployment-manager deployments create \
-"${CI_PROJECT_NAME}-bucket" \
+"${CIRCLE_PROJECT_REPONAME}-bucket" \
 --template "dm_templates/bucket.py" \
 --properties \
 "SUBDOMAIN:${SUBDOMAIN},\
