@@ -8,27 +8,27 @@ jobs:
     steps:
       - continuation/continue:
           configuration_path: ".circleci/main.yml"
-            parameters: "parameters.json"
-            pre-steps:
-              - checkout
-              - run:
-                  command: |
-                    export GCP_PROJECT_ID="testing-203707"
-                    export GCP_IDENTITY_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-identity"
-                    export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="${GCP_IDENTITY_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
-                    export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="/tmp/key.json"
-                    export GCP_RESOURCE_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-resource"
-                    export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="${GCP_RESOURCE_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
-                    export GCP_REGION="US-WEST1"
-                    export GCLOUD_SDK_VERSION="358.0.0"
-                    export STATIC_DIR="dist"
-                    export DOMAIN="booksdejalu.com"
-                    export SUBDOMAIN="www.${DOMAIN}"
-                    export MAIN_PAGE="index.html"
-                    export NOT_FOUND_PAGE="404.html"
-              - run:
-                  command:
-                    .circleci/parameters.sh "parameters.json"
+          parameters: "parameters.json"
+          pre-steps:
+            - checkout
+            - run:
+                command: |
+                  export GCP_PROJECT_ID="testing-203707"
+                  export GCP_IDENTITY_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-identity"
+                  export GCP_IDENTITY_SERVICE_ACCOUNT_EMAIL="${GCP_IDENTITY_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
+                  export GCP_IDENTITY_SERVICE_ACCOUNT_KEY_PATH="/tmp/key.json"
+                  export GCP_RESOURCE_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-resource"
+                  export GCP_RESOURCE_SERVICE_ACCOUNT_EMAIL="${GCP_RESOURCE_SERVICE_ACCOUNT}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
+                  export GCP_REGION="US-WEST1"
+                  export GCLOUD_SDK_VERSION="358.0.0"
+                  export STATIC_DIR="dist"
+                  export DOMAIN="booksdejalu.com"
+                  export SUBDOMAIN="www.${DOMAIN}"
+                  export MAIN_PAGE="index.html"
+                  export NOT_FOUND_PAGE="404.html"
+            - run:
+                command:
+                  .circleci/parameters.sh "parameters.json"
 workflows:
   setup:
     jobs:
