@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create pipeline parameters
           command: |
             export GCP_PROJECT_ID="testing-203707"
             export GCP_IDENTITY_SERVICE_ACCOUNT="${CIRCLE_PROJECT_REPONAME}-ci-identity"
