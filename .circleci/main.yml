@@ -1,0 +1,106 @@
+version: 2.1
+parameters:
+  gcp-project-id:
+    type: string
+  gcp-identity-service-account:
+    type: string
+  gcp-identity-service-account-email:
+    type: string
+  gcp-identity-service_account_key_path:
+    type: string
+  gcp-resource-service_account:
+    type: string
+  gcp-resource-service_account_email:
+    type: string
+  gcp-region:
+    type: string
+  gcloud-sdk-version:
+    type: string
+  static-dir:
+    type: string
+  domain:
+    type: string
+  subdomain:
+    type: string
+  main-page:
+    type: string
+  not-found-page:
+    type: string
+  manual:
+    type: boolean
+    default: false
+defaults: &defaults
+  docker:
+    - image: google/cloud-sdk:<< pipeline.parameters.gcloud-sdk-version >>
+jobs:
+  build-static-files:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run:
+          command: export $STATIC_DIR
+      - run:
+          command: deploy-scripts/build-website.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - << pipeline.parameters.static-dir >>
+  create-resources:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            export << pipeline.parameters.gcp-identity-service-account-key >>
+            export << pipeline.parameters.gcp-identity-service-account-key-path >>
+            export << pipeline.parameters.gcp-identity-service-account-email >>
+            export << pipeline.parameters.gcp-identity-resource-account-email >>
+            export << pipeline.parameters.gcp-project-id >>
+            export << pipeline.parameters.gcp-region >>
+            export << pipeline.parameters.subdomain >>
+            export << pipeline.parameters.main-page >>
+            export << pipeline.parameters.not-found-page >>
+            export << pipeline.parameters.static-dir >>
+            export CIRCLE_PROJECT_REPONAME
+      - run:
+          command: deploy-scripts/authenticate.sh
+      - run:
+          command: deploy-scripts/create-resources.sh
+  deploy-prod:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            export << pipeline.parameters.gcp-identity-service-account-key >>
+            export << pipeline.parameters.gcp-identity-service-account-key-path >>
+            export << pipeline.parameters.gcp-identity-service-account-email >>
+            export << pipeline.parameters.gcp-project-id >>
+            export << pipeline.parameters.subdomain >>
+      - run:
+          command: deploy-scripts/authenticate.sh
+      - run:
+          command: gsutil -m cp -R << pipeline.parameters.static-dir >>/* gs://${SUBDOMAIN}
+workflows:
+  build-create:
+    when: << pipeline.parameters.manual >>
+    jobs:
+      - build-static-files
+      - create-resources:
+          requires:
+            - build-static-files
+  build-deploy:
+    when:
+      not: << pipeline.parameters.manual >>
+    jobs:
+      - build-static-files
+      - deploy-prod:
+          requires:
+            - build-static-files
+          filters:
+            branches:
+              only:
+                - master
