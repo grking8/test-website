@@ -2,32 +2,46 @@ version: 2.1
 parameters:
   gcp-project-id:
     type: string
+    default: ""
   gcp-identity-service-account:
     type: string
+    default: ""
   gcp-identity-service-account-email:
     type: string
+    default: ""
   gcp-identity-service-account-key-path:
     type: string
+    default: ""
   gcp-resource-service-account:
     type: string
-  gcp-resource-service-account_email:
+    default: ""
+  gcp-resource-service-account-email:
     type: string
+    default: ""
   gcp-region:
     type: string
+    default: ""
   gcloud-sdk-version:
     type: string
+    default: ""
   static-dir:
     type: string
+    default: ""
   domain:
     type: string
+    default: ""
   subdomain:
     type: string
+    default: ""
   main-page:
     type: string
+    default: ""
   not-found-page:
     type: string
+    default: ""
   initial-run:
     type: string
+    default: "false"
 jobs:
   build-static-files:
     docker:
