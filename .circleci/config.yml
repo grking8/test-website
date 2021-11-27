@@ -30,8 +30,6 @@ jobs:
             export MAIN_PAGE="index.html"
             export NOT_FOUND_PAGE="404.html"
             export MANUAL=<< pipeline.parameters.manual >>
-      - run:
-          command:
             .circleci/parameters.sh "parameters.json"
       - continuation/continue:
           configuration_path: ".circleci/main.yml"
