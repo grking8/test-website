@@ -21,10 +21,10 @@ jq -n \
 --arg manual "$MANUAL" \
 "{gcp-project-id: $gcp_project_id, \
 gcp-identity-service-account: $gcp_identity_service_account, \
-gcp-identity-service-account_email: $gcp_identity_service_account_email, \
-gcp-identity-service-account_key_path: $gcp_identity_service_account_key_path, \
+gcp-identity-service-account-email: $gcp_identity_service_account_email, \
+gcp-identity-service-account-key_path: $gcp_identity_service_account_key_path, \
 gcp-resource-service-account: $gcp_resource_service_account, \
-gcp-resource-service-account_email: $gcp_resource_service_account_email, \
+gcp-resource-service-account-email: $gcp_resource_service_account_email, \
 gcp-region: $gcp_region, \
 gcloud-sdk-version: $gcloud_sdk_version, \
 static-dir: $static_dir, \
